@@ -10,13 +10,13 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras import models, layers, optimizers, callbacks
 
-def set_seeds(seed=650610240):
+def set_seeds(seed):
     random.seed(seed)
     np.random.seed(seed)
     tf.random.set_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
 
-set_seeds(650612126)
+set_seeds(650610240)
 
 try:
     df = pd.read_csv('load_consumption.csv')
@@ -88,8 +88,8 @@ test_prediction_original = scaler.inverse_transform(test_prediction)
 actual_original = scaler.inverse_transform(y_test[0:1])
 
 print("\nComparison on Test Sample:")
-print(f"Actual: {actual_original[0][:5]} ...")
-print(f"Predicted: {test_prediction_original[0][:5]} ...")
+print(f"Actual: {actual_original[0]}")
+print(f"Predicted: {test_prediction_original[0]}")
 
 plt.figure(figsize=(6, 4))
 
