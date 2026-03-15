@@ -16,7 +16,8 @@ def set_seeds(seed):
     tf.random.set_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
 
-set_seeds(650610240)
+model_name = input('Model Name: ')
+set_seeds(int(model_name))
 
 try:
     df = pd.read_csv('load_consumption.csv')
@@ -105,10 +106,13 @@ plt.show()
 user_input = input('\nSave? (Y/N): ').lower()
 
 if user_input == "yes" or user_input == "y":
-    name = input('Name: ')
     print("Continuing...")
-    model.save(f'models/{name}.keras')
-    print(f"{name}.keras have been saved.")
+    d = {"Actual": actual_original[0], "Predicted":test_prediction_original[0] }
+    df = pd.DataFrame(data=d)
+    df.to_csv(f'test_result/{model_name}.csv', index=False)
+    print(f"{model_name}.csv have been saved.")
+    model.save(f'models/{model_name}.keras')
+    print(f"{model_name}.keras have been saved.")
 elif user_input == "no" or user_input == "n":
     print("Exiting...")
 else:

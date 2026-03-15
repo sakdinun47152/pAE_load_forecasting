@@ -16,7 +16,8 @@ def set_seeds(seed):
     tf.random.set_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
 
-set_seeds(650610240)
+model_name = input("Model name: ")
+set_seeds(int(model_name))
 
 try:
     df = pd.read_csv('load_consumption.csv')
@@ -31,7 +32,7 @@ scaled_data = scaler.fit_transform(data)
 LOOK_BACK = 5
 FORECAST = 12
 
-model = models.load_model('models/650610240.keras')
+model = models.load_model(f'models/{model_name}.keras')
 
 last_sequence = scaled_data[-LOOK_BACK:].reshape(1, -1)
 predicted_scaled = model.predict(last_sequence)
@@ -56,7 +57,12 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
-hours = [f"{i:02d}:00" for i in range(1, 13)]
+hours = [f"{i:02d}:00" for i in range(0, 12)]
 print("\n--- Forecast Result ---")
 for h, val in zip(hours, predicted_load[0]):
     print(f"{h} -> {val:.2f} kWh")
+
+d = {"Hour": hours, "Load (kWh)":predicted_load[0] }
+df = pd.DataFrame(data=d)
+df.to_csv(f'predict_result/{model_name}.csv', index=False)
+print(f'predict_result/{model_name}.csv has been saved.')
