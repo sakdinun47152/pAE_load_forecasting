@@ -4,11 +4,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 import tensorflow as tf
+import keras
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras import models
 
 def set_seeds(seed):
     random.seed(seed)
@@ -32,7 +33,7 @@ scaled_data = scaler.fit_transform(data)
 LOOK_BACK = 5
 FORECAST = 12
 
-model = models.load_model(f'models/{model_name}.keras')
+model = keras.models.load_model(f'models/{model_name}.keras')
 
 last_sequence = scaled_data[-LOOK_BACK:].reshape(1, -1)
 predicted_scaled = model.predict(last_sequence)

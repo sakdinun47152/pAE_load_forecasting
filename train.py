@@ -7,8 +7,9 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras import models, layers, optimizers, callbacks
+from keras import models, layers, optimizers, callbacks
 
 def set_seeds(seed):
     random.seed(seed)
